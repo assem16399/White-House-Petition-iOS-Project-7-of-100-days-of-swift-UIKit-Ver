@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F498A480292B33E7008638BB /* Petition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F498A47F292B33E7008638BB /* Petition.swift */; };
 		F498A482292B36A2008638BB /* Petitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F498A481292B36A2008638BB /* Petitions.swift */; };
+		F4CE4536292C7DDC003E9E2B /* PetitionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE4535292C7DDC003E9E2B /* PetitionDetailViewController.swift */; };
 		F4D5E2CB292A016000B098A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5E2CA292A016000B098A9 /* AppDelegate.swift */; };
 		F4D5E2CD292A016000B098A9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5E2CC292A016000B098A9 /* SceneDelegate.swift */; };
 		F4D5E2CF292A016000B098A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5E2CE292A016000B098A9 /* ViewController.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		F498A47F292B33E7008638BB /* Petition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Petition.swift; sourceTree = "<group>"; };
 		F498A481292B36A2008638BB /* Petitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Petitions.swift; sourceTree = "<group>"; };
+		F4CE4535292C7DDC003E9E2B /* PetitionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetitionDetailViewController.swift; sourceTree = "<group>"; };
 		F4D5E2C7292A016000B098A9 /* White House Petition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "White House Petition.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D5E2CA292A016000B098A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4D5E2CC292A016000B098A9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				F4D5E2D8292A016100B098A9 /* Info.plist */,
 				F498A47F292B33E7008638BB /* Petition.swift */,
 				F498A481292B36A2008638BB /* Petitions.swift */,
+				F4CE4535292C7DDC003E9E2B /* PetitionDetailViewController.swift */,
 			);
 			path = "White House Petition";
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 				F498A480292B33E7008638BB /* Petition.swift in Sources */,
 				F4D5E2CB292A016000B098A9 /* AppDelegate.swift in Sources */,
 				F4D5E2CD292A016000B098A9 /* SceneDelegate.swift in Sources */,
+				F4CE4536292C7DDC003E9E2B /* PetitionDetailViewController.swift in Sources */,
 				F498A482292B36A2008638BB /* Petitions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
