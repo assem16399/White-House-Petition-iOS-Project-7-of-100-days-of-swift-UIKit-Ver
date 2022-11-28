@@ -50,26 +50,27 @@ class ViewController: UITableViewController {
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Filter", style: .default, handler: {[weak self,weak ac] _ in
             guard let filterText = ac?.textFields?[0].text else {return}
+            self?.performSelector(inBackground: #selector(self?.filterData), with: filterText)
             
-            
-            DispatchQueue.global(qos: .userInitiated).async {
-                [weak self] () in
-                if (filterText.isEmpty) {
-                    self?.filteredData.removeAll()
-                    self?.performSelector(onMainThread: #selector(self?.reloadTableViewData), with: nil, waitUntilDone: false)
-                    return
-                }
-                
-                let filteredResults = self?.petitions?.results.filter({
-                    $0.title.hasPrefix(filterText)})
-                if let safeFilteredResults = filteredResults
-                {
-                    self?.filteredData = safeFilteredResults
-                    self?.performSelector(onMainThread: #selector(self?.reloadTableViewData), with: nil, waitUntilDone: false)
-                }
-            }
         }))
         present(ac, animated: true)
+    }
+    
+    
+    @objc func filterData(withText filterText: String){
+        if (filterText.isEmpty) {
+            filteredData.removeAll()
+            performSelector(onMainThread: #selector(reloadTableViewData), with: nil, waitUntilDone: false)
+            return
+        }
+        
+        let filteredResults = petitions?.results.filter({
+            $0.title.hasPrefix(filterText)})
+        if let safeFilteredResults = filteredResults
+        {
+            filteredData = safeFilteredResults
+            performSelector(onMainThread: #selector(reloadTableViewData), with: nil, waitUntilDone: false)
+        }
     }
     
     @objc func onInfoPressed() {
