@@ -14,22 +14,35 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavBar()
-        let urlString = isTopRated() ? "https://www.hackingwithswift.com/samples/petitions-2.json" : "https://www.hackingwithswift.com/samples/petitions-1.json"
+        let urlString = isTopRated()
+        ? "https://www.hackingwithswift.com/samples/petitions-2.json" : "https://www.hackingwithswift.com/samples/petitions-1.json"
+        performSelector(inBackground: #selector(fetchJson), with: urlString)
+    }
+    
+    @objc func fetchJson(withUrl urlString:String){
+        
+        
         if let url = URL(string: urlString) {
             if let data = try? Data(contentsOf: url){
                 // We're Okay To Parse That Data
                 parseJson(json: data)
-                tableView.reloadData()
+                performSelector(onMainThread: #selector(reloadTableViewData), with: nil, waitUntilDone: false)
                 return
             }
+            performSelector(onMainThread: #selector(showError), with: self, waitUntilDone: false)
         }
-        showError()
+        
     }
     
-    func configNavBar() {
+     func configNavBar() {
         title = isTopRated() ? "Top Rated Petitions" : "Most Recent Petitions"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Press Me", style: .done, target: self, action: #selector(onInfoPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .done, target: self, action: #selector(onFilterPressed))
+    }
+    
+    
+    @objc func reloadTableViewData() {
+        tableView.reloadData()
     }
     
     @objc func onFilterPressed() {
@@ -38,17 +51,22 @@ class ViewController: UITableViewController {
         ac.addAction(UIAlertAction(title: "Filter", style: .default, handler: {[weak self,weak ac] _ in
             guard let filterText = ac?.textFields?[0].text else {return}
             
-            if (filterText.isEmpty) {
-                self?.filteredData.removeAll()
-                self?.tableView.reloadData()
-                return
-            }
-            let filteredResults = self?.petitions?.results.filter({
-                $0.title.hasPrefix(filterText)})
-            if let safeFilteredResults = filteredResults
-            {
-                self?.filteredData = safeFilteredResults
-                self?.tableView.reloadData()
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                [weak self] () in
+                if (filterText.isEmpty) {
+                    self?.filteredData.removeAll()
+                    self?.performSelector(onMainThread: #selector(self?.reloadTableViewData), with: nil, waitUntilDone: false)
+                    return
+                }
+                
+                let filteredResults = self?.petitions?.results.filter({
+                    $0.title.hasPrefix(filterText)})
+                if let safeFilteredResults = filteredResults
+                {
+                    self?.filteredData = safeFilteredResults
+                    self?.performSelector(onMainThread: #selector(self?.reloadTableViewData), with: nil, waitUntilDone: false)
+                }
             }
         }))
         present(ac, animated: true)
@@ -59,11 +77,12 @@ class ViewController: UITableViewController {
         ac.addAction(UIAlertAction(title: "Okay", style: .cancel))
         present(ac, animated: true)
     }
-    private func isTopRated() -> Bool {
+     private func isTopRated() -> Bool {
+
         return navigationController?.tabBarItem.tag == 1
     }
     
-    func showError() {
+    @objc func showError() {
         let ac = UIAlertController(title: "Loading error", message: "There was a problem loading the feed; please check your connection and try again.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
@@ -73,6 +92,8 @@ class ViewController: UITableViewController {
         let decoder = JSONDecoder ()
         if let petitionsData = try? decoder.decode(Petitions.self, from: json){
             petitions = petitionsData
+        }else{
+            performSelector(onMainThread: #selector(showError), with: self, waitUntilDone: false)
         }
         
     }
